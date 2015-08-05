@@ -9,7 +9,11 @@
 
     $app = new Silex\Application();
 
-    $app->get("/", function() {
+    $app->register(new Silex\Provider\TwigServiceProvider(), array(
+        'twig.path' => __DIR__.'/../views'
+    ));
+
+    $app->get("/", function() use ($app) {
 
         $output = "";
 
@@ -41,11 +45,11 @@
             </form>
             ";
 
-        return $output;
+        return $app['twig']->render('tasks.html.twig');
 
     });
 
-    $app->post("/tasks", function() {
+    $app->post("/tasks", function() use ($app) {
         $task = new Task($_POST['description']);
         $task->save();
         return "
@@ -55,7 +59,7 @@
             ";
     });
 
-    $app->post("/delete_tasks", function() {
+    $app->post("/delete_tasks", function() use ($app) {
 
         Task::deleteAll();
 
