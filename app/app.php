@@ -24,13 +24,15 @@
     $app->post("/tasks", function() use ($app) {
         $task = new Task($_POST['description']);
         $task->save();
-        return "
+        return $app['twig']->render('create_task.html.twig'); 
+
+        "
             <h1>You created a task!</h1>
             <p>" . $task->getDescription() . "</p>
             <p><a href='/'>View your list of things to do.</a></p>
             ";
     });
-    
+
 
     $app->post("/delete_tasks", function() use ($app) {
 
