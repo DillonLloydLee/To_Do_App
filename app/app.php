@@ -13,12 +13,13 @@
         'twig.path' => __DIR__.'/../views'
     ));
 
-    $app->get("/", function() use ($app) {
 
+    $app->get("/", function() use ($app) {
 
         return $app['twig']->render('tasks.html.twig', array('tasks' => Task::getAll()));
 
     });
+
 
     $app->post("/tasks", function() use ($app) {
         $task = new Task($_POST['description']);
@@ -29,6 +30,7 @@
             <p><a href='/'>View your list of things to do.</a></p>
             ";
     });
+    
 
     $app->post("/delete_tasks", function() use ($app) {
 
